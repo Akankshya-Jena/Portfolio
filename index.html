@@ -257,14 +257,15 @@
                 </div>
             </div>
             <div class="contact-form">
-                <form action="">
-                    <input type="" placeholder="Enter Your Name" required>
-                    <input type="email" placeholder="Enter Your Email" required>
-                    <input type="" placeholder="Enter Your Subject">
-                    <textarea name="" id="" cols="40" rows="10" placeholder="Enter Your Message"></textarea>
-                    <input type="submit" value="submit" class="send">
+                <form id="contact-form">
+                    <input type="text" name="name" placeholder="Enter Your Name" required>
+                    <input type="email" name="email" placeholder="Enter Your Email" required>
+                    <input type="text" name="subject" placeholder="Enter Your Subject">
+                    <textarea name="message" cols="40" rows="10" placeholder="Enter Your Message"></textarea>
+                    <input type="submit" value="Submit" class="send">
                 </form>
             </div>
+            
         </section>
 
         <div class="last-text">
@@ -276,6 +277,40 @@
 
 
         <script src="main.js"></script>
+        <script>
+            document.getElementById('contact-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+        
+                const form = e.target;
+                const data = {
+                    name: form.name.value,
+                    email: form.email.value,
+                    subject: form.subject.value,
+                    message: form.message.value
+                };
+        
+                fetch('https://script.google.com/macros/s/AKfycbyZTIhcwNCfTRu8cc_1im76pJtp3pqXSAVnSRcFq4HFjn9IYV7zQA__TscMjsvSCfiW8w/exec', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.result === 'success') {
+                        alert('Form submitted successfully!');
+                        form.reset();
+                    } else {
+                        alert('Error submitting form');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error submitting form');
+                });
+            });
+        </script>
     </body>
 </html>
 
